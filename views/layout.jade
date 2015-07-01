@@ -3,5 +3,19 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='https://code.jquery.com/jquery-2.1.4.min.js' type='text/javascript')
   body
-    block content
+    div#container
+      div#header-container
+        table
+          tbody
+            tr
+              td.logo
+                img(src='images/DC Logo.png')
+                h2 Celebrating 20.5 Years of Funny
+              td.header-right
+      div#topnav
+      div#banner
+      div#main
+        block-content
+      div#footer

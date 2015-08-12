@@ -1,20 +1,72 @@
-#container {
-    margin: 0 auto;
-    width: 1000px;
-    #header-container {
-        height: 100px;
-        .logo {
-            img {
-                display: inline-block;
-            }
-            h2 {
-                vertical-align: middle;
-                display: inline-block;
-            }
-        }
-    }
+@import url(http://fonts.googleapis.com/css?family=Exo);
+
+.width(@arg) {
+  width: @arg;
+  max-width: @arg;
+  min-width: @arg;
 }
-div {
-    border: solid black 3px;
+#container {
+  margin: 0 auto;
+  width: 1000px;
+  #header-container {
+    .logo {
+      img {
+        display: inline-block;
+      }
+      h2 {
+        vertical-align: middle;
+        display: inline-block;
+      }
+    }
+    .header-right {
+      span {
+        padding: 4px 9px;
+      }
+      .socialButton {
+        display: inline-block;
+        img {
+          height: 27px;
+          width: 27px;
+        }
+      }
+
+
+    }
+  }
+  #topnav {
+    border: solid black 1px;
+    div {
+      display: inline-block;
+      &.navButton {
+        font-size: 13px;
+        font-family: Arial;
+        text-align: center;
+        font-size: 16px;
+        a {
+          font-family: 'Exo', sans-serif;
+          display: block;
+          padding: 23px 38px 21px;
+          text-decoration: none;
+          color: black;
+        }
+        &.active, &:hover {
+          background-color: black;
+          a {
+            color: white;
+          }
+        }
+        &:after {
+            content: "";
+            height: 40px;
+            border-left: black solid 1px;
+        }
+      }
+      &.vertical-line {
+        content: "";
+        height: 20px;
+        border-left: black solid 1px;
+      }
+    }
+  }
 }
 

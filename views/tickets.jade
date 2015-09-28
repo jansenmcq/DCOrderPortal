@@ -1,4 +1,38 @@
 extends ticketLayout
 
+block includes
+  script(src='javascripts/ticketLogic.js' type='text/javascript')
+
 block content
-  
+  form#ticketForm
+    div#prettyTable
+      h2 Order Tickets
+      table
+        tbody
+          tr
+            td(colspan='2')
+              span Name
+              input#name(type='text', name='name')
+            td
+              span Friday at 7
+              input.ticketInput#friday7tickets(type='number', min=0, max=50, name='friday7Tickets', value=0)
+          tr
+            td(colspan='2')
+            td
+              span Friday at 9
+              input.ticketInput#friday9tickets(type='number', min=0, max=50, name='friday9Tickets', value=0)
+          tr
+            td(colspan='2')
+              span email
+              input#email(type='email', name='email')
+            td
+              span Saturday at 7
+              input.ticketInput#saturday7tickets(type='number', min=0, max=50, name='saturday7Tickets', value=0)
+          tr
+            td(colspan='2')
+            td
+              span Saturday at 9
+              input.ticketInput#saturday9tickets(type='number', min=0, max=50, name='saturday9Tickets', value=0)
+      div.cart
+        span#cost Total: $0.00
+        a.button#submitData(href='#') Checkout

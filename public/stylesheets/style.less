@@ -7,20 +7,11 @@ body {
   max-width: @arg;
   min-width: @arg;
 }
-.button{
-  padding: 9px 9px;
-  background-color: #B1E9E5;
-  color: black;
-  border-radius: 16px;
-  display: inline-block;
-  text-decoration: none;
-  box-shadow: 3px 2px black;
+.validationError {
+  color: red;
 }
-.cart {
-  #cost {
-    margin-right: 26px;
-  }
-}
+
+
 #container {
   margin: 0 auto;
   width: 1000px;
@@ -100,9 +91,13 @@ body {
         td {
           padding-top: 20px; 
         }
-  span {
+        span {
           margin: 8px 0;
           display: block;
+          &.disabled::after {
+            content: "- Sold out";
+            color: red;
+          }
         }
       }
       
@@ -113,6 +108,29 @@ body {
         padding: 5px;
         padding-left: 8px;
       }
+      .cart {
+        #errorMessage {
+          color: red;
+          
+        }
+        #cost {
+          margin-right: 26px;
+        }
+        .button{
+          padding: 9px 9px;
+          background-color: #B1E9E5;
+          color: black;
+          border-radius: 16px;
+          display: inline-block;
+          text-decoration: none;
+          width: 64px;
+          box-shadow: 3px 2px black;
+          &:active {
+            box-shadow: inset 2px 1px black;
+          }
+        }
+
+      } 
     }
     #adminBackground {
       background-color: #FDFF93;

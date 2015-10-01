@@ -1,0 +1,204 @@
+
+> DivineComedySite@0.0.0 start /home/ec2-user/DivineComedySite
+> node ./bin/www
+
+Server running on IP 52.24.221.243:80
+
+> DivineComedySite@0.0.0 start /home/ec2-user/DivineComedySite
+> node ./bin/www
+
+Server running on IP 52.24.221.243:80
+[0mGET / [36m302 [0m13.540 ms - 72[0m
+[0mGET /tickets [36m304 [0m430.412 ms - -[0m
+[0mGET /javascripts/ticketLogic.js [36m304 [0m4.646 ms - -[0m
+[0mGET /images/DC%20Logo.png [36m304 [0m4.529 ms - -[0m
+[0mGET /stylesheets/style.css [32m200 [0m56.172 ms - 2351[0m
+[0mGET /images/social-twitter.svg [36m304 [0m0.761 ms - -[0m
+[0mGET /images/social-youtube.svg [36m304 [0m0.465 ms - -[0m
+[0mGET /images/social-facebook.svg [36m304 [0m0.626 ms - -[0m
+[0mGET /images/social-pinterest.svg [36m304 [0m1.366 ms - -[0m
+[0mGET /images/ajax-loader.gif [36m304 [0m1.532 ms - -[0m
+[0mGET /images/social-instagram.svg [36m304 [0m1.280 ms - -[0m
+[0mGET /images/big-dog-banner.jpg [36m304 [0m1.146 ms - -[0m
+[0mGET /images/tickets-background.jpg [36m304 [0m1.963 ms - -[0m
+[0mGET /admin/api/tickets [32m200 [0m46.800 ms - 70[0m
+
+> DivineComedySite@0.0.0 start /home/ec2-user/DivineComedySite
+> node ./bin/www
+
+Server running on IP 52.24.221.243:80
+Server running on IP 52.24.221.243:80
+[0mGET /tickets [36m304 [0m440.525 ms - -[0m
+[0mGET /javascripts/ticketLogic.js [36m304 [0m6.447 ms - -[0m
+[0mGET /images/DC%20Logo.png [36m304 [0m6.192 ms - -[0m
+[0mGET /stylesheets/style.css [32m200 [0m59.956 ms - 2351[0m
+[0mGET /images/social-facebook.svg [36m304 [0m0.904 ms - -[0m
+[0mGET /images/social-twitter.svg [36m304 [0m1.016 ms - -[0m
+[0mGET /images/social-youtube.svg [36m304 [0m0.678 ms - -[0m
+[0mGET /images/social-pinterest.svg [36m304 [0m1.024 ms - -[0m
+[0mGET /images/social-instagram.svg [36m304 [0m0.906 ms - -[0m
+[0mGET /images/big-dog-banner.jpg [36m304 [0m1.439 ms - -[0m
+[0mGET /images/ajax-loader.gif [36m304 [0m1.093 ms - -[0m
+[0mGET /admin/api/tickets [36m304 [0m42.573 ms - -[0m
+[0mGET /images/tickets-background.jpg [36m304 [0m1.381 ms - -[0m
+[0mGET /tickets [32m200 [0m221.489 ms - 3393[0m
+[0mGET /stylesheets/style.css [32m200 [0m3.054 ms - 2351[0m
+[0mGET /javascripts/ticketLogic.js [32m200 [0m1.002 ms - 4890[0m
+[0mGET /images/DC%20Logo.png [32m200 [0m1.071 ms - 17757[0m
+[0mGET /images/social-facebook.svg [32m200 [0m1.446 ms - 1075[0m
+[0mGET /images/social-twitter.svg [32m200 [0m1.142 ms - 1771[0m
+[0mGET /images/social-youtube.svg [32m200 [0m0.743 ms - 3577[0m
+[0mGET /images/social-pinterest.svg [32m200 [0m0.765 ms - 1410[0m
+[0mGET /images/social-instagram.svg [32m200 [0m2.565 ms - 1479[0m
+[0mGET /images/ajax-loader.gif [32m200 [0m1.365 ms - 1849[0m
+[0mGET /admin/api/tickets [32m200 [0m17.554 ms - 70[0m
+[0mGET /images/big-dog-banner.jpg [32m200 [0m150.562 ms - 80400[0m
+[0mGET /images/tickets-background.jpg [32m200 [0m374.916 ms - 425238[0m
+Update result: {"ok":1,"nModified":1,"n":1}
+Purchase Records result: {"result":{"ok":1,"n":1},"ops":[{"name":"DC4","email":"byu4@dc.edu","tickets":{"F7":0,"F9":11,"S7":22,"S9":0},"paymentCompleted":false,"_id":"560c43465dcf6fe570e1b3ed"}],"insertedCount":1,"insertedIds":["560c43465dcf6fe570e1b3ed"]}
+[0mPOST /checkout [32m200 [0m34.059 ms - 8[0m
+Update result: {"ok":1,"nModified":1,"n":1}
+Purchase Records result: {"result":{"ok":1,"n":1},"ops":[{"name":"Elizabeth Funk","email":"elizabeth_funk@byu.edu","tickets":{"F7":2,"F9":3,"S7":1,"S9":0},"paymentCompleted":false,"_id":"560c43595dcf6fe570e1b3ee"}],"insertedCount":1,"insertedIds":["560c43595dcf6fe570e1b3ee"]}
+[0mPOST /checkout [32m200 [0m19.584 ms - 8[0m
+{"name":"DC4","email":"byu4@dc.edu","friday7Tickets":"0","friday9Tickets":"11","saturday7Tickets":"22","saturday9Tickets":"0"}
+{"_id":"560c43465dcf6fe570e1b3ed","name":"DC4","email":"byu4@dc.edu","tickets":{"F7":0,"F9":11,"S7":22,"S9":0},"paymentCompleted":false}
+{"_id":"5606384aa18029723b4f4d1a","F7":481,"F9":480,"S7":474,"S9":500}
+481 491 496 500
+{"ok":1,"n":1}
+[0mPOST /checkout/payment_failed [36m302 [0m18.997 ms - 65[0m
+[0mGET / [36m302 [0m1.563 ms - 42[0m
+[0mGET /plugins/system/plugin_googlemap2/plugin_googlemap2_proxy.php?url= [33m404 [0m107.640 ms - 2659[0m
+[0mGET /tickets [36m304 [0m128.309 ms - -[0m
+[0mGET /stylesheets/style.css [36m304 [0m1.119 ms - -[0m
+[0mGET /javascripts/ticketLogic.js [36m304 [0m0.597 ms - -[0m
+[0mGET /images/DC%20Logo.png [36m304 [0m0.833 ms - -[0m
+[0mGET /images/social-twitter.svg [36m304 [0m2.271 ms - -[0m
+[0mGET /images/social-facebook.svg [36m304 [0m1.606 ms - -[0m
+[0mGET /images/social-youtube.svg [36m304 [0m1.146 ms - -[0m
+[0mGET /images/social-pinterest.svg [36m304 [0m1.142 ms - -[0m
+[0mGET /images/social-instagram.svg [36m304 [0m1.018 ms - -[0m
+[0mGET /images/big-dog-banner.jpg [36m304 [0m1.204 ms - -[0m
+[0mGET /images/ajax-loader.gif [36m304 [0m0.478 ms - -[0m
+[0mGET /images/tickets-background.jpg [36m304 [0m0.443 ms - -[0m
+[0mGET /admin/api/tickets [32m200 [0m12.134 ms - 70[0m
+Update result: {"ok":1,"nModified":1,"n":1}
+Purchase Records result: {"result":{"ok":1,"n":1},"ops":[{"name":"Elizabeth Funk","email":"elizabeth_funk@byu.edu","tickets":{"F7":1,"F9":0,"S7":0,"S9":0},"paymentCompleted":false,"_id":"560c5bc55dcf6fe570e1b3ef"}],"insertedCount":1,"insertedIds":["560c5bc55dcf6fe570e1b3ef"]}
+[0mPOST /checkout [32m200 [0m87.395 ms - 8[0m
+[0mGET /tickets [32m200 [0m110.054 ms - 3393[0m
+[0mGET / [36m302 [0m1.135 ms - 42[0m
+[0mGET / [36m302 [0m1.792 ms - 72[0m
+[0mGET /tickets [32m200 [0m68.996 ms - 3393[0m
+[0mGET /stylesheets/style.css [32m200 [0m1.410 ms - 2351[0m
+[0mGET /images/DC%20Logo.png [32m200 [0m0.676 ms - 17757[0m
+[0mGET /javascripts/ticketLogic.js [32m200 [0m1.128 ms - 4890[0m
+[0mGET /images/social-facebook.svg [36m304 [0m0.490 ms - -[0m
+[0mGET /images/social-twitter.svg [32m200 [0m0.777 ms - 1771[0m
+[0mGET /images/social-instagram.svg [32m200 [0m2.302 ms - 1479[0m
+[0mGET /images/social-youtube.svg [32m200 [0m2.260 ms - 3577[0m
+[0mGET /images/social-pinterest.svg [32m200 [0m0.923 ms - 1410[0m
+[0mGET /images/ajax-loader.gif [32m200 [0m0.596 ms - 1849[0m
+[0mGET /admin/api/tickets [32m200 [0m16.108 ms - 70[0m
+[0mGET /images/big-dog-banner.jpg [32m200 [0m35.219 ms - 80400[0m
+[0mGET /images/tickets-background.jpg [32m200 [0m125.658 ms - 425238[0m
+[0mGET /admin [32m200 [0m42.013 ms - 1889[0m
+[0mGET /stylesheets/style.css [36m304 [0m0.798 ms - -[0m
+[0mGET /images/DC%20Logo.png [36m304 [0m0.420 ms - -[0m
+[0mGET /javascripts/adminPage.js [32m200 [0m0.883 ms - 328[0m
+[0mGET /images/social-twitter.svg [36m304 [0m0.972 ms - -[0m
+[0mGET /images/social-youtube.svg [36m304 [0m0.624 ms - -[0m
+[0mGET /images/social-facebook.svg [36m304 [0m0.411 ms - -[0m
+[0mGET /images/social-pinterest.svg [36m304 [0m0.643 ms - -[0m
+[0mGET /images/social-instagram.svg [36m304 [0m1.159 ms - -[0m
+[0mGET /admin/api/tickets [36m304 [0m13.104 ms - -[0m
+[0mGET /images/tickets-background.jpg [36m304 [0m1.018 ms - -[0m
+[0mGET /images/big-dog-banner.jpg [36m304 [0m0.846 ms - -[0m
+[0mGET /admin/api/reports [33m404 [0m65.343 ms - 2659[0m
+[0mGET /stylesheets/style.css [36m304 [0m1.778 ms - -[0m
+[0mGET /admin/api/images/social-youtube.svg [33m404 [0m39.917 ms - 2659[0m
+[0mGET /admin/api/images/social-pinterest.svg [33m404 [0m43.839 ms - 2659[0m
+[0mGET /admin/api/images/DC%20Logo.png [33m404 [0m55.909 ms - 2659[0m
+[0mGET /admin/api/images/social-twitter.svg [33m404 [0m100.573 ms - 2659[0m
+[0mGET /admin/api/images/social-instagram.svg [33m404 [0m133.759 ms - 2659[0m
+[0mGET /admin/api/images/social-facebook.svg [33m404 [0m173.205 ms - 2659[0m
+[0mGET /images/tickets-background.jpg [36m304 [0m0.980 ms - -[0m
+[0mGET /admin/api/images/big-dog-banner.jpg [33m404 [0m39.736 ms - 2659[0m
+[0mGET /admin/api/report [32m200 [0m28.298 ms - 194[0m
+[0mGET / [36m302 [0m0.937 ms - 72[0m
+[0mGET /tickets [36m304 [0m54.745 ms - -[0m
+[0mGET /stylesheets/style.css [36m304 [0m0.860 ms - -[0m
+[0mGET /javascripts/ticketLogic.js [36m304 [0m0.521 ms - -[0m
+[0mGET /images/DC%20Logo.png [36m304 [0m0.405 ms - -[0m
+[0mGET /images/social-twitter.svg [36m304 [0m0.417 ms - -[0m
+[0mGET /images/social-facebook.svg [36m304 [0m0.391 ms - -[0m
+[0mGET /images/social-pinterest.svg [36m304 [0m0.394 ms - -[0m
+[0mGET /images/social-youtube.svg [36m304 [0m0.499 ms - -[0m
+[0mGET /images/big-dog-banner.jpg [36m304 [0m0.381 ms - -[0m
+[0mGET /images/social-instagram.svg [36m304 [0m0.388 ms - -[0m
+[0mGET /images/ajax-loader.gif [36m304 [0m0.418 ms - -[0m
+[0mGET /admin/api/tickets [32m200 [0m13.332 ms - 70[0m
+[0mGET /images/tickets-background.jpg [36m304 [0m0.451 ms - -[0m
+[0mGET /stylesheets/style.css [36m304 [0m0.771 ms - -[0m
+[0mGET /robots.txt [33m404 [0m32.967 ms - 2659[0m
+[0mGET /xmlrpc.php [33m404 [0m43.352 ms - 2659[0m
+[0mGET / [36m302 [0m0.858 ms - 72[0m
+[0mGET / [36m302 [0m0.900 ms - 72[0m
+[0mGET /Ringing.at.your.dorbell! [33m404 [0m43.269 ms - 2659[0m
+[0mGET /tickets [36m304 [0m42.451 ms - -[0m
+[0mGET / [36m302 [0m0.740 ms - 42[0m
+[0mGET /images/DC%20Logo.png [36m304 [0m0.956 ms - -[0m
+[0mGET /javascripts/ticketLogic.js [36m304 [0m0.869 ms - -[0m
+[0mGET /stylesheets/style.css [36m304 [0m1.991 ms - -[0m
+[0mGET / [36m302 [0m0.574 ms - 42[0m
+[0mGET /images/social-facebook.svg [36m304 [0m0.617 ms - -[0m
+[0mGET /images/social-twitter.svg [36m304 [0m0.414 ms - -[0m
+[0mGET /images/social-youtube.svg [36m304 [0m0.392 ms - -[0m
+[0mGET /images/social-pinterest.svg [36m304 [0m0.415 ms - -[0m
+[0mGET /images/social-instagram.svg [36m304 [0m0.554 ms - -[0m
+[0mGET / [36m302 [0m0.695 ms - 42[0m
+[0mGET /images/big-dog-banner.jpg [36m304 [0m2.101 ms - -[0m
+[0mGET /images/tickets-background.jpg [36m304 [0m0.741 ms - -[0m
+[0mGET /images/ajax-loader.gif [36m304 [0m0.593 ms - -[0m
+[0mGET /admin/api/tickets [36m304 [0m14.134 ms - -[0m
+[0mGET /ticketsa [33m404 [0m3.617 ms - 124[0m
+[0mGET /ringing.at.your.dorbell! [33m404 [0m2.487 ms - 124[0m
+{"result":"902","respmessage":"Customer Cancelled before processing payment","ccerrorcode":"902","ccerrormessage":"Customer Cancelled before processing payment","merchant":"WEBDC","custcode":"WEBDC","itemcnt":"2","lname":"WEB Divine Comedy","failedtx":"0","itemcode1":"WEBDC-OF7","amount1":"0.00","qty1":"3","itemcode2":"WEBDC-OS9","amount2":"5.00","qty2":"2"}
+No matching record found
+[0mPOST /checkout/payment_failed [36m302 [0m12.905 ms - 118[0m
+[0mGET /robots.txt [33m404 [0m2.351 ms - 124[0m
+[0mGET /www.byudivinecomedy.com [33m404 [0m2.768 ms - 124[0m
+[0mGET /www.byudivinecomedy.com [33m404 [0m3.229 ms - 131[0m
+[0mGET /tickets [36m304 [0m53.281 ms - -[0m
+[0mGET /images/DC%20Logo.png [36m304 [0m0.740 ms - -[0m
+[0mGET /stylesheets/style.css [36m304 [0m1.456 ms - -[0m
+[0mGET /javascripts/ticketLogic.js [32m200 [0m0.800 ms - 5581[0m
+[0mGET /images/social-facebook.svg [36m304 [0m0.820 ms - -[0m
+[0mGET /images/social-twitter.svg [36m304 [0m4.094 ms - -[0m
+[0mGET /images/social-youtube.svg [36m304 [0m0.681 ms - -[0m
+[0mGET /images/social-pinterest.svg [36m304 [0m0.583 ms - -[0m
+[0mGET /images/big-dog-banner.jpg [36m304 [0m0.872 ms - -[0m
+[0mGET /images/social-instagram.svg [36m304 [0m1.129 ms - -[0m
+[0mGET /admin/api/tickets [36m304 [0m12.238 ms - -[0m
+[0mGET /images/ajax-loader.gif [36m304 [0m0.418 ms - -[0m
+[0mGET /images/tickets-background.jpg [36m304 [0m0.427 ms - -[0m
+[0mGET /tickets [32m200 [0m62.516 ms - 3224[0m
+[0mGET /stylesheets/style.css [36m304 [0m0.741 ms - -[0m
+[0mGET /javascripts/ticketLogic.js [36m304 [0m0.433 ms - -[0m
+[0mGET /images/DC%20Logo.png [36m304 [0m0.411 ms - -[0m
+[0mGET /images/social-facebook.svg [36m304 [0m0.526 ms - -[0m
+[0mGET /images/social-twitter.svg [36m304 [0m1.111 ms - -[0m
+[0mGET /images/social-youtube.svg [36m304 [0m0.612 ms - -[0m
+[0mGET /images/social-pinterest.svg [36m304 [0m0.471 ms - -[0m
+[0mGET /images/social-instagram.svg [36m304 [0m0.687 ms - -[0m
+[0mGET /images/big-dog-banner.jpg [36m304 [0m0.689 ms - -[0m
+[0mGET /images/ajax-loader.gif [36m304 [0m0.418 ms - -[0m
+[0mGET /admin/api/tickets [36m304 [0m11.773 ms - -[0m
+[0mGET /images/tickets-background.jpg [36m304 [0m0.540 ms - -[0m
+Update result: {"ok":1,"nModified":1,"n":1}
+Purchase Records result: {"result":{"ok":1,"n":1},"ops":[{"name":"Johhnnssoonn","email":"divinecomedy.byu@gmail.com","tickets":{"F7":0,"F9":3,"S7":4,"S9":1},"paymentCompleted":false,"_id":"560c8d645dcf6fe570e1b3f0"}],"insertedCount":1,"insertedIds":["560c8d645dcf6fe570e1b3f0"]}
+[0mPOST /checkout [32m200 [0m19.359 ms - 8[0m
+[{"_id":"560c8d645dcf6fe570e1b3f0","name":"Johhnnssoonn","email":"divinecomedy.byu@gmail.com","tickets":{"F7":0,"F9":3,"S7":4,"S9":1},"paymentCompleted":false}]
+{"_id":"560c8d645dcf6fe570e1b3f0","name":"Johhnnssoonn","email":"divinecomedy.byu@gmail.com","tickets":{"F7":0,"F9":3,"S7":4,"S9":1},"paymentCompleted":false}
+{"_id":"5606384aa18029723b4f4d1a","F7":480,"F9":488,"S7":492,"S9":499}
+480 491 496 500
+{"ok":1,"n":1}
+[0mPOST /checkout/logout/divinecomedy.byu@gmail.com [36m302 [0m17.085 ms - 118[0m

@@ -7,32 +7,46 @@ block content
   form#ticketForm
     div#prettyTable
       h2 Order Tickets
+      h4 Shows: Friday October 9 - Saturday October 10 at 7 & 9 PM
       table
         tbody
           tr
             td(colspan='2')
-              span Name
+              span#nameTitle Name
               input#name(type='text', name='name')
-            td
+            td#fri7
               span Friday at 7
               input.ticketInput#friday7tickets(type='number', min=0, max=50, name='friday7Tickets', value=0)
           tr
             td(colspan='2')
-            td
+            td#fri9
               span Friday at 9
               input.ticketInput#friday9tickets(type='number', min=0, max=50, name='friday9Tickets', value=0)
           tr
             td(colspan='2')
-              span email
+              span#emailTitle Email (this is where we will send your ticket voucher so make sure it's correct!)
               input#email(type='email', name='email')
-            td
+            td#sat7
               span Saturday at 7
               input.ticketInput#saturday7tickets(type='number', min=0, max=50, name='saturday7Tickets', value=0)
           tr
             td(colspan='2')
-            td
+            td#sat9
               span Saturday at 9
               input.ticketInput#saturday9tickets(type='number', min=0, max=50, name='saturday9Tickets', value=0)
       div.cart
+        p#errorMessage(style='display: none;')
         span#cost Total: $0.00
-        a.button#submitData(href='#') Checkout
+        a.button#submitData(href='#')
+          span#checkoutText Checkout
+          img#pageLoad(src='/images/ajax-loader.gif', style='display: none;')
+
+  form#hiddenForm(style='display: none;', method='post', action='https://commerce.cashnet.com/webdc')
+    input#emailInput(type='hidden' name='email' value='')
+    input(type='hidden' name='ref1type1' value='EMAIL')
+    input#emailRef(type='hidden' name='ref1val1' value='')
+    input(type='hidden' name='ref2type1' value='NAME')
+    input#nameRef(type='hidden' name='ref2val1' value='')
+    input#lastName(type='hidden' name='lname' value='')
+    input#firstName(type='hidden' name='fname' value='')
+    input#logoutURL(type='hidden' name='signouturl' value='')

@@ -1,37 +1,38 @@
-extends ticketLayout
+extends layout
 
 block includes
   script(src='javascripts/ticketLogic.js' type='text/javascript')
+  link(href='https://fonts.googleapis.com/css?family=Lato:400,700,900', rel='stylesheet', type='text/css')
 
 block content
   form#ticketForm
     div#prettyTable
       h2 Order Tickets
-      h4 Shows: Friday October 9 - Saturday October 10 at 7 & 9 PM
+      h4 Shows: Friday December 4 - Saturday December 5 at 7 & 9 PM
       table
         tbody
           tr
             td(colspan='2')
               span#nameTitle Name
               input#name(type='text', name='name')
-            td#fri7
+            td#fri7.tdTicket
               span Friday at 7
               input.ticketInput#friday7tickets(type='number', min=0, max=50, name='friday7Tickets', value=0)
           tr
             td(colspan='2')
-            td#fri9
+            td#fri9.tdTicket
               span Friday at 9
               input.ticketInput#friday9tickets(type='number', min=0, max=50, name='friday9Tickets', value=0)
           tr
             td(colspan='2')
               span#emailTitle Email (this is where we will send your ticket voucher so make sure it's correct!)
               input#email(type='email', name='email')
-            td#sat7
+            td#sat7.tdTicket
               span Saturday at 7
               input.ticketInput#saturday7tickets(type='number', min=0, max=50, name='saturday7Tickets', value=0)
           tr
             td(colspan='2')
-            td#sat9
+            td#sat9.tdTicket
               span Saturday at 9
               input.ticketInput#saturday9tickets(type='number', min=0, max=50, name='saturday9Tickets', value=0)
       div.cart
@@ -40,6 +41,7 @@ block content
         a.button#submitData(href='#')
           span#checkoutText Checkout
           img#pageLoad(src='/images/ajax-loader.gif', style='display: none;')
+      p.notice (IMPORTANT NOTICE: If you decide not to complete your order, click the "sign-out" link on the next page rather than clicking the "back" button on your browser or exiting out completely. This will allow us to track your order more effectively. Thank you!)
 
   form#hiddenForm(style='display: none;', method='post', action='https://commerce.cashnet.com/webdc')
     input#emailInput(type='hidden' name='email' value='')

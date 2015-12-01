@@ -1,12 +1,41 @@
 extends layout
 
 block includes
-  script(src='javascripts/adminPage.js' type='text/javascript')
+    script(src='javascripts/adminPage.js' type='text/javascript')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
 
 block content
-  div#adminBackground
-    h2 Tickets left
-    h4#friday7tickets
-    h4#friday9tickets
-    h4#saturday7tickets
-    h4#saturday9tickets 
+    div#adminBackground
+        h2 Tickets left
+        h4#friday7tickets
+        h4#friday9tickets
+        h4#saturday7tickets
+        h4#saturday9tickets
+        br
+        div.adminContainer
+            table.admin
+                tr
+                    td
+                        label Friday at 7:
+                    td
+                        input#F7Change(type='number')
+                    td
+                        label Friday at 9:
+                    td
+                        input#F9Change(type='number')
+                tr
+                    td
+                        label Saturday at 7:
+                    td
+                        input#S7Change(type='number')
+                    td
+                        label Saturday at 9:
+                    td
+                        input#S9Change(type='number')
+        a.adminChange.btn.btn-default#setTickets Set Tickets
+        a.adminChange.btn.btn-default#updateTickets Update Tickets
+        p#errorMessage
+        br
+        a.btn.btn-default#download-report(href='/admin/recordsapi/presidencyactions/report') Download Purchase Records
+        br
+        a(href='/admin/logout') Logout

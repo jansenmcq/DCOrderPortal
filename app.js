@@ -17,7 +17,15 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
+app.use(logger(':remote-addr [:date] :method :url :status', {
+  skip: function(req, res) {
+    if (req.path.indexOf('checkout') > -1 || (req.path.indexOf('checkout') > -1 && req.path.indexOf('checkout') < 5)) {
+      return false;
+    }
+    return true;
+  }
+}));
+//app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -38,6 +46,7 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
+console.log(app.get('env'));
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
@@ -53,7 +62,7 @@ if (app.get('env') === 'development') {
 app.use(function(err, req, res, next) {  
   console.log(err);
   res.status(err.status || 500);
-  res.send('error: '+ err);
+  res.send('error');
 });
 
 

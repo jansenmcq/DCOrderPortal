@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var MongoClient = require('mongodb').MongoClient;
-var PromisedMongo = require('promised-mongo');
 var mongoURL = 'mongodb://127.0.0.1:27017/tickets';//apparently there's a node bug where you have to specify the home address instead of 'localhost'
 var ObjectID = require('mongodb').ObjectID;
 var passport = require('passport');
@@ -22,39 +21,48 @@ router.get('/', function(req, res) {
 router.get('/tickets', function(req, res) {
     //res.send('This site is down as there are no tickets to be sold. Sorry!')
     //res.send('Sorry, we\'re experiencing technical difficulties right now. Please be patient and try again soon!');
-    console.log("Tickets page route, about to get database instance");
-    var db = PromisedMongo(mongoURL);
 
-    console.log("Tickets page route, about to get collections instance");
-    var shows = db.collection('showInfo');
-    var data;
-    console.log("Tickets page route, about to make request");
-    shows.findOne({infoType: 'enableShow'})
-    .then(function(item) {
-        data = item.data;
-        data.title = 'Tickets';
-        if (data.sellingTickets) {
-            console.log("Tickets page route, block 1");
-            return shows.findOne({infoType: 'showTimeText'})
+    MongoClient.connect(mongoURL, function(err, db) {
+        if (err) {
+            console.log('MongoClient connect error in route \'tickets\', err message: ');
+            console.log(err);
+            res.status(500).send('Temporary internal error. Please wait for a few minutes and try again!');
+        } else {
+            var shows = db.collection('showInfo');
+             shows.findOne({infoType: 'enableShow'}, function(err, item) {
+                if (err) {
+                    console.log("Fetching 'enableShow' document in 'showInfo' collection unsuccessful. Error message:");
+                    console.log(err);
+                    res.status(500).send('Temporary internal error. Please wait for a few minutes and try again!');
+                } else {
+                    var data = item.data;
+                    data.title = 'Tickets';
+                    if (!data.sellingTickets) {
+                        res.render('tickets', data);
+                    } else {
+                        shows.findOne({infoType: 'showTimeText'}, function(err, showTime) {
+                            if (err) {
+                                console.log("Fetching 'showTimeText' document in 'showInfo' collection unsuccessful. Error message:");
+                                console.log(err);
+                                res.status(500).send('Temporary internal error. Please wait for a few minutes and try again!');
+                            } else {
+                                data.showTime = showTime.data;
+                                shows.findOne({infoType: 'showNames'}, function(err, showNames) {
+                                    if (err) {
+                                        console.log("Fetching 'showNames' document in 'showInfo' collection unsuccessful. Error message:");
+                                        console.log(err);
+                                        res.status(500).send('Temporary internal error. Please wait for a few minutes and try again!');
+                                    } else {
+                                        data.showNames = showNames.data;
+                                        res.render('tickets', data);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+             });
         }
-    })
-    .then(function(showTime) {
-        if (showTime) {
-            data.showTime = showTime.data;
-            console.log("Tickets page route, block 2");
-            return shows.findOne({infoType: 'showNames'});
-        }
-    })
-    .then(function(showNames) {
-        if (showNames) {
-            console.log("Tickets page route, block 3");
-            data.showNames = showNames.data;
-        }
-        res.render('tickets', data);
-    })
-    .catch(function(err) {
-        console.log('Error with Database on ticket page request:', err);
-        res.status(500).send('Database Error');
     });
 });
 
@@ -67,143 +75,163 @@ router.get('/login', function(req, res) {
 });
 
 router.get('/ticketapi/get', function(req, res) {
-    var db = PromisedMongo(mongoURL);
-    var ticketCounts = db.collection('ticketAmounts');
-    ticketCounts.findOne()
-        .then(function(item) {
-            res.send(item);
-        })
-        .catch(function(err) {
-            console.log('Error on getting ticket amounts on route /ticketapi/get', err);
-            res.status(500).send(err);
-        });
+    MongoClient.connect(mongoURL, function(err, db) {
+       if (err) {
+           console.log('MongoClient connect error in route \'ticketapi/get\', err message: ');
+           console.log(err);
+           res.status(500).send('Temporary internal error. Please wait for a few minutes and try again!');
+       } else {
+           var ticketCounts = db.collection('ticketAmounts');
+           ticketCounts.findOne(function(err, item) {
+               if (err) {
+                   console.log("Fetching 'ticketAmounts' collection in route 'ticketapi/get' unsuccessful. Error message:");
+                   console.log(err);
+                   res.status(500).send('Temporary internal error. Please wait for a few minutes and try again!');
+               } else {
+                   res.send(item);
+               }
+           });
+       }
+    });
 });
 
 router.post('/checkout', function(req, res) {
-    var checkoutScope = {};
-    var db = PromisedMongo(mongoURL);
-    var ticketCollection = db.collection('ticketAmounts');
-    ticketCollection.findOne()
-    .then(function(item) {
-        //console.log(item);
-        //console.log(req.body);
-        checkoutScope.remainingF7 = item.F7 - normalizeTicketNumber(req.body.F7Tickets);
-        checkoutScope.remainingF9 = item.F9 - normalizeTicketNumber(req.body.F9Tickets);
-        checkoutScope.remainingS7 = item.S7 - normalizeTicketNumber(req.body.S7Tickets);
-        checkoutScope.remainingS9 = item.S9 - normalizeTicketNumber(req.body.S9Tickets);
-        checkoutScope.remainingT1 = item.T1 - normalizeTicketNumber(req.body.T1Tickets);
-        checkoutScope.remainingT2 = item.T2 - normalizeTicketNumber(req.body.T2Tickets);
-        checkoutScope.remainingT3 = item.T3 - normalizeTicketNumber(req.body.T3Tickets);
-        checkoutScope.remainingT4 = item.T4 - normalizeTicketNumber(req.body.T4Tickets);
-        var notEnoughTickets = false;
-        var errorMessage = {error: {tickets: {}}};
-        //console.log(checkoutScope.remainingF7);
-        if (checkoutScope.remainingF7 < 0) {
-            errorMessage.error.tickets.F7 = item.F7;
-            notEnoughTickets = true;
-            //console.log(errorMessage);
-        }
-        if (checkoutScope.remainingF9 < 0) {
-            errorMessage.error.tickets.F9 = item.F9;
-            notEnoughTickets = true;
-        }
-        if (checkoutScope.remainingS7 < 0) {
-            errorMessage.error.tickets.S7 = item.S7;
-            notEnoughTickets = true;
-        }
-        if (checkoutScope.remainingS9 < 0) {
-            errorMessage.error.tickets.S9 = item.S9;
-            notEnoughTickets = true;
-        }
-        if (checkoutScope.remainingT1 < 0) {
-            errorMessage.error.tickets.T1 = item.T1;
-            notEnoughTickets = true;
-        }
-        if (checkoutScope.remainingT2 < 0) {
-            errorMessage.error.tickets.T2 = item.T2;
-            notEnoughTickets = true;
-        }
-        if (checkoutScope.remainingT3 < 0) {
-            errorMessage.error.tickets.T3 = item.T3;
-            notEnoughTickets = true;
-        }
-        if (checkoutScope.remainingT4 < 0) {
-            errorMessage.error.tickets.T4 = item.T4;
-            notEnoughTickets = true;
-        }
-        if (notEnoughTickets) {
-            console.log('here');
-            db.close();
-            res.send(errorMessage);
-            return -1;
-        }//else
-        checkoutScope.id = item._id;
-        checkoutScope.purchasers = db.collection('purchaseRecords');
-        return checkoutScope.purchasers.find({email: req.body.email, paymentCompleted: false}).toArray();
-    })
-    .then(function(failedPurchases) {
-        if (failedPurchases == -1) {
-            return -1;
-        }//else
-        //console.log('Failed area');
-        //console.log(failedPurchases);
-        if (failedPurchases.length > 0) {
-            var errorMessage = {error: {unfinishedPurchase: failedPurchases[failedPurchases.length - 1]}};
-            db.close();
-            res.status(200).send(errorMessage);
-            return -1;
-        } //else
-        return ticketCollection.update(
-            {_id: checkoutScope.id},
-            {
-                $set: {
-                    F7: checkoutScope.remainingF7,
-                    F9: checkoutScope.remainingF9,
-                    S7: checkoutScope.remainingS7,
-                    S9: checkoutScope.remainingS9,
-                    T1: checkoutScope.remainingT1,
-                    T2: checkoutScope.remainingT2,
-                    T3: checkoutScope.remainingT3,
-                    T4: checkoutScope.remainingT4
+    MongoClient.connect(mongoURL, function(err, db) {
+        if (err) {
+            console.log('MongoClient connect error in route \'checkout\', err message: ');
+            console.log(err);
+            res.status(500).send('Temporary internal error. Please wait for a few minutes and try again!');
+        } else {
+            var ticketCollection = db.collection('ticketAmounts');
+            ticketCollection.findOne(function(err, item) {
+                if (err) {
+                    console.log("Fetching 'ticketAmounts' collection in route 'checkout' unsuccessful. Error message:");
+                    console.log(err);
+                    res.status(500).send('Temporary internal error. Please wait for a few minutes and try again!');
+                } else {
+                    var remainingF7 = item.F7 - normalizeTicketNumber(req.body.F7Tickets);
+                    var remainingF9 = item.F9 - normalizeTicketNumber(req.body.F9Tickets);
+                    var remainingS7 = item.S7 - normalizeTicketNumber(req.body.S7Tickets);
+                    var remainingS9 = item.S9 - normalizeTicketNumber(req.body.S9Tickets);
+                    var remainingT1 = item.T1 - normalizeTicketNumber(req.body.T1Tickets);
+                    var remainingT2 = item.T2 - normalizeTicketNumber(req.body.T2Tickets);
+                    var remainingT3 = item.T3 - normalizeTicketNumber(req.body.T3Tickets);
+                    var remainingT4 = item.T4 - normalizeTicketNumber(req.body.T4Tickets);
+                    var notEnoughTickets = false;
+                    var errorMessage = {error: {tickets: {}}};
+                    //console.log(checkoutScope.remainingF7);
+                    if (checkoutScope.remainingF7 < 0) {
+                        errorMessage.error.tickets.F7 = item.F7;
+                        notEnoughTickets = true;
+                        //console.log(errorMessage);
+                    }
+                    if (checkoutScope.remainingF9 < 0) {
+                        errorMessage.error.tickets.F9 = item.F9;
+                        notEnoughTickets = true;
+                    }
+                    if (checkoutScope.remainingS7 < 0) {
+                        errorMessage.error.tickets.S7 = item.S7;
+                        notEnoughTickets = true;
+                    }
+                    if (checkoutScope.remainingS9 < 0) {
+                        errorMessage.error.tickets.S9 = item.S9;
+                        notEnoughTickets = true;
+                    }
+                    if (checkoutScope.remainingT1 < 0) {
+                        errorMessage.error.tickets.T1 = item.T1;
+                        notEnoughTickets = true;
+                    }
+                    if (checkoutScope.remainingT2 < 0) {
+                        errorMessage.error.tickets.T2 = item.T2;
+                        notEnoughTickets = true;
+                    }
+                    if (checkoutScope.remainingT3 < 0) {
+                        errorMessage.error.tickets.T3 = item.T3;
+                        notEnoughTickets = true;
+                    }
+                    if (checkoutScope.remainingT4 < 0) {
+                        errorMessage.error.tickets.T4 = item.T4;
+                        notEnoughTickets = true;
+                    }
+                    if (notEnoughTickets) {
+                        res.send(errorMessage);
+                    } else {
+                        var purchasers = db.collection('purchaseRecords');
+                        purchasers.find({email: req.body.email, paymentCompleted: false}).toArray(function(err, failedPurchases) {
+                            if (err) {
+                                console.log("Fetching 'purchaseRecords' collection in route 'checkout' unsuccessful. Error message:");
+                                console.log(err);
+                                res.status(500).send('Temporary internal error. Please wait for a few minutes and try again!');
+                            } else {
+                                if (failedPurchases.length > 0) {
+                                    var errorMessage = {error: {unfinishedPurchase: failedPurchases[failedPurchases.length - 1] } };
+                                    res.status(200).send(errorMessage);
+                                } else {
+                                    ticketCollection.updateOne(
+                                        {_id: item._id},
+                                        {
+                                            $set: {
+                                                F7: remainingF7,
+                                                F9: remainingF9,
+                                                S7: remainingS7,
+                                                S9: remainingS9,
+                                                T1: remainingT1,
+                                                T2: remainingT2,
+                                                T3: remainingT3,
+                                                T4: remainingT4
+                                            }
+                                        },
+                                        {w: 1},
+                                        function (err, result) {
+                                            if (err) {
+                                                console.log("Updating 'ticketAmounts' collection in route 'checkout' unsuccessful. Error message:");
+                                                console.log(err);
+                                                res.status(500).send('Temporary internal error. Please wait for a few minutes and try again!');
+                                            } else {
+                                                //console.log("Update result: " + JSON.stringify(result));
+                                                var date = new Date();
+                                                date.setHours(date.getHours() - 6);
+                                                purchasers.insert(
+                                                    {
+                                                        name: req.body.name,
+                                                        email: req.body.email,
+                                                        tickets: {
+                                                            F7: normalizeTicketNumber(req.body.F7Tickets),
+                                                            F9: normalizeTicketNumber(req.body.F9Tickets),
+                                                            S7: normalizeTicketNumber(req.body.S7Tickets),
+                                                            S9: normalizeTicketNumber(req.body.S9Tickets),
+                                                            T1: normalizeTicketNumber(req.body.T1Tickets),
+                                                            T2: normalizeTicketNumber(req.body.T2Tickets),
+                                                            T3: normalizeTicketNumber(req.body.T3Tickets),
+                                                            T4: normalizeTicketNumber(req.body.T4Tickets)
+                                                        },
+                                                        paymentCompleted: false,
+                                                        timeStamp: date.toJSON(),
+                                                        meta: ''
+                                                    },
+                                                    {w: 1},
+                                                    function (err, result) {
+                                                        if (err) {
+                                                            console.log("Inserting into 'ticketAmounts' collection in route 'checkout' unsuccessful. Error message:");
+                                                            console.log(err);
+                                                            res.status(500).send('Temporary internal error. Please wait for a few minutes and try again!');
+                                                        } else {
+                                                            //console.log('Purchase Records result: ' + JSON.stringify(result));
+                                                            res.send('Success!');
+                                                            //console.log("Affirm my concept of express");
+                                                        }
+                                                    }
+                                                );
+                                            }
+                                        }
+                                    );
+                                }
+                            }
+                        });
+                    }
                 }
-            }
-        );
-    })
-    .then(function(result) {
-        if (result == -1) {
-            return -1;
-        }//else
-        var date = new Date();
-        date.setHours(date.getHours() - 6);
-        return checkoutScope.purchasers.insert(
-            {
-                name: req.body.name,
-                email: req.body.email,
-                tickets: {
-                    F7: normalizeTicketNumber(req.body.F7Tickets),
-                    F9: normalizeTicketNumber(req.body.F9Tickets),
-                    S7: normalizeTicketNumber(req.body.S7Tickets),
-                    S9: normalizeTicketNumber(req.body.S9Tickets),
-                    T1: normalizeTicketNumber(req.body.T1Tickets),
-                    T2: normalizeTicketNumber(req.body.T2Tickets),
-                    T3: normalizeTicketNumber(req.body.T3Tickets),
-                    T4: normalizeTicketNumber(req.body.T4Tickets)
-                },
-                paymentCompleted: false,
-                timeStamp: date.toJSON(),
-                meta: ''
-            }
-        )
-    })
-    .then(function(result) {
-        if (result == -1) {
-            return -1;
-        }//else
-        res.send('Success!');
-    })
-    .catch(function(err) {
-        console.log('Error occurred on checkout', err);
-        res.status(500).send('Database failure: ' + JSON.stringify(err));
+            });
+        }
     });
 });
 

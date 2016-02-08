@@ -1,0 +1,17 @@
+extends adminLayout
+
+block adminFill
+    div.editTickets
+        table
+            each enabled, show in enabledShows
+                if enabled
+                    -var showCode = show.substr(0,2)
+                    -var showNameIndex = showCode + 'Name'
+                    tr
+                        td
+                            label(id=showCode + 'Label')= showNames[showNameIndex]
+                        td
+                            input.ticketRowInput(id=showCode + 'Change', type='number')
+    a.adminChange.btn.btn-default#setTickets Set Tickets
+    a.adminChange.btn.btn-default#updateTickets Update Tickets
+    p#errorMessage

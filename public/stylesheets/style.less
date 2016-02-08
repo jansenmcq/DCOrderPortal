@@ -91,8 +91,14 @@ body {
       }
       table {
         width: 100%;
+        tr {
+          &.ticketRow {
+            td {
+              padding-top: 20px;
+            }
+          }
+        }
         td {
-          padding-top: 20px;
           &.tdTicket{
             min-width: -moz-max-content;
             min-width: -webkit-max-content;
@@ -117,6 +123,9 @@ body {
         padding-left: 8px;
       }
       .cart {
+        margin-top: 10px;
+        border-top: solid 3px gold;
+        padding-top: 12px;
         #errorMessage {
           color: red;
 
@@ -144,32 +153,66 @@ body {
         font-style: italic;
       }
     }
-    #adminBackground {
+    #adminMain {
       background-color: #FDFF93;
       padding: 18px;
       width: 80%;
       border-radius: 16px;
       border: dashed black 2px;
-    }
 
-    .adminContainer {
-      border-top: black 2px solid;
-      padding-top: 16px;
-      margin: 4px;
+      .editTickets {
+        border-top: black 2px solid;
+        border-bottom: black 2px solid;
+        padding-top: 16px;
+        margin: 4px;
 
-      table.admin {
-        label {
-          .width(120px);
-        }
-        input {
-          margin: 2px 10px;
-          .width(60px);
+        table {
+          label {
+            .width(120px);
+          }
+          input {
+            margin: 2px 10px;
+            .width(60px);
+          }
         }
       }
-    }
 
-    .adminChange {
-      margin: 4px 20px;
+      .adminChange {
+        margin: 4px 20px;
+      }
+
+      .navigation {
+        display: block;
+        margin-top: 46px;
+        .adminLink {
+          display: inline;
+          border: solid black 2px;
+          border-top: none;
+          border-bottom-left-radius: 33%;
+          border-bottom-right-radius: 33%;
+          padding: 10px 6px 18px;
+          color: white;
+          font-size: 18px;
+          font-weight: bold;
+          background-color: #A93;
+          text-decoration: none;
+          &.disabled {
+            background-color: #FDFF93;
+            color: black;
+          }
+        }
+      }
+
+
+      .logoutLink {
+        display: block;
+        width: 30px;
+        margin-top: 16px;
+        margin-left: 8px;
+      }
+
+
+
     }
   }
 }

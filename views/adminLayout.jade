@@ -1,0 +1,23 @@
+extends layout
+block includes
+    script(src='/javascripts/adminPage.js' type='text/javascript')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
+
+block content
+    div#adminMain
+        if page == 'home' || page == 'tickets'
+            h2 Tickets left
+            each enabled, show in enabledShows
+                if enabled
+                    -var showCode = show.substr(0,2)
+                    -var showNameIndex = showCode + 'Name'
+                    h4.ticketsLeft(id=showCode + 'TicketsLeft')= showNames[showNameIndex] + ': '
+                        span.ticketAmount
+        block adminFill
+        div.navigation
+            a.adminLink(href=page == 'home' ? false : '/admin', class= page == 'home' ? 'disabled' : '') Admin Home Page
+            a.adminLink(href=page == 'tickets' ? false : '/admin/editTickets', class= page == 'tickets' ? 'disabled' : '') Modify Tickets
+            a.adminLink(href=page == 'showInfo' ? false : '/admin/editShowInfo', class= page == 'showInfo' ? 'disabled' : '') Set up Show Sales
+            a.adminLink(href=page == 'accountSettings' ? false : '/admin/editAccount', class= page == 'accountSettings' ? 'disabled' : '') Admin Settings
+        a.logoutLink(href='/admin/logout') Logout
+

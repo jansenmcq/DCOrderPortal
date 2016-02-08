@@ -1,0 +1,12 @@
+extends adminLayout
+
+block adminFill
+    div#adminBackground
+        div.usernameBlock
+            p Change the Admin account username
+            input#usernameInput.adminSettingsInput(type='text', name='usernameField')
+            a.btn.btn-default#updateUsername(href='#') Change Username
+        div.passwordBlock
+            p Change the Admin account password
+            input#passwordInput.adminSettingsInput(type='text', name='passwordField')
+            a.btn.btn-default#updatePassword(href='#') Change Password

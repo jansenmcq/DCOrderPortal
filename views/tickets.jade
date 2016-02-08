@@ -7,48 +7,81 @@ block includes
 block content
   form#ticketForm
     div#prettyTable
-      h2 Order Tickets
-      h4 Shows: Friday December 4 - Saturday December 5 at 7 & 9 PM
-      table
-        tbody
-          tr
-            td(colspan='2')
-              span#nameTitle Name
-              input#name(type='text', name='name')
-            td#fri7.tdTicket
-              span Friday at 7
-              input.ticketInput#friday7tickets(type='number', min=0, max=50, name='friday7Tickets', value=0)
-          tr
-            td(colspan='2')
-            td#fri9.tdTicket
-              span Friday at 9
-              input.ticketInput#friday9tickets(type='number', min=0, max=50, name='friday9Tickets', value=0)
-          tr
-            td(colspan='2')
-              span#emailTitle Email (this is where we will send your ticket voucher so make sure it's correct!)
-              input#email(type='email', name='email')
-            td#sat7.tdTicket
-              span Saturday at 7
-              input.ticketInput#saturday7tickets(type='number', min=0, max=50, name='saturday7Tickets', value=0)
-          tr
-            td(colspan='2')
-            td#sat9.tdTicket
-              span Saturday at 9
-              input.ticketInput#saturday9tickets(type='number', min=0, max=50, name='saturday9Tickets', value=0)
-      div.cart
-        p#errorMessage(style='display: none;')
-        span#cost Total: $0.00
-        a.button#submitData(href='#')
-          span#checkoutText Checkout
-          img#pageLoad(src='/images/ajax-loader.gif', style='display: none;')
-      p.notice (IMPORTANT NOTICE: If you decide not to complete your order, click the "sign-out" link on the next page rather than clicking the "back" button on your browser or exiting out completely. This will allow us to track your order more effectively. Thank you!)
+      if sellingTickets
+        h2 Order Tickets
+        h4= showTime
+        table
+          tbody
+            tr.contactRow.nameRow
+              td
+                span#nameTitle Name
+              td
+                input#name(type='text', name='name')
+            tr.contactRow.emailRow
+              td
+                span#emailTitle Email (this is where we will send your ticket voucher so make sure it's correct!)
+              td
+                input#email(type='email', name='email')
+            each enabled, show in enabledShows
+              -var showCode = show.substr(0,2)
+              -var showNameIndex = showCode + 'Name'
+              if enabled
+                tr.ticketRow
+                  td
+                    span.ticketRowTitle(id=showCode + 'ticketsTitle')= showNames[showNameIndex]
+                  td
+                    input.ticketRowInput(id=showCode + 'ticketsAmount', name=showCode + 'ticketsAmount', type='number', min=0, max=50, value=0)
+          //
+            if F7enabled
+              tr.ticketRow#F7
+                td
+                  span.ticketRowTitle Friday at 7
+                td
+                  input.ticketRowInput#friday7tickets(type='number', min=0, max=50, name='friday7tickets', value=0)
+            if F9enabled
+            tr
+              td(colspan='2')
+                span#nameTitle Name
+                input#name(type='text', name='name')
+              td#fri7.tdTicket
+                span Friday at 7
+                input.ticketInput#friday7tickets(type='number', min=0, max=50, name='friday7Tickets', value=0)
+            tr
+              td(colspan='2')
+              td#fri9.tdTicket
+                span Friday at 9
+                input.ticketInput#friday9tickets(type='number', min=0, max=50, name='friday9Tickets', value=0)
+            tr
+              td(colspan='2')
+                span#emailTitle Email (this is where we will send your ticket voucher so make sure it's correct!)
+                input#email(type='email', name='email')
+              td#sat7.tdTicket
+                span Saturday at 7
+                input.ticketInput#saturday7tickets(type='number', min=0, max=50, name='saturday7Tickets', value=0)
+            tr
+              td(colspan='2')
+              td#sat9.tdTicket
+                span Saturday at 9
+                input.ticketInput#saturday9tickets(type='number', min=0, max=50, name='saturday9Tickets', value=0)
+        div.cart
+          p#errorMessage(style='display: none;')
+          span#cost Total: $0.00
+          a.button#submitData(href='#')
+            span#checkoutText Checkout
+            img#pageLoad(src='/images/ajax-loader.gif', style='display: none;')
+        p.notice (IMPORTANT NOTICE: If you decide not to complete your order, click the "sign-out" link on the next page rather than clicking the "back" button on your browser or exiting out completely. This will allow us to track your order more effectively. Thank you!)
 
-  form#hiddenForm(style='display: none;', method='post', action='https://commerce.cashnet.com/webdc')
-    input#emailInput(type='hidden' name='email' value='')
-    input(type='hidden' name='ref1type1' value='EMAIL')
-    input#emailRef(type='hidden' name='ref1val1' value='')
-    input(type='hidden' name='ref2type1' value='NAME')
-    input#nameRef(type='hidden' name='ref2val1' value='')
-    input#lastName(type='hidden' name='lname' value='')
-    input#firstName(type='hidden' name='fname' value='')
-    input#logoutURL(type='hidden' name='signouturl' value='')
+      else
+        h2 BYU Divine Comedy Tickets
+        h4 Currently we are not selling any tickets. Check our <a href="http://www.byudivinecomedy.com">website</a> for more information!
+  if sellingTickets
+    form#hiddenForm(style='display: none;', method='post', action='https://commerce.cashnet.com/webdc')
+      input#emailInput(type='hidden' name='email' value='')
+      input(type='hidden' name='ref1type1' value='EMAIL')
+      input#emailRef(type='hidden' name='ref1val1' value='')
+      input(type='hidden' name='ref2type1' value='NAME')
+      input#nameRef(type='hidden' name='ref2val1' value='')
+      input#lastName(type='hidden' name='lname' value='')
+      input#firstName(type='hidden' name='fname' value='')
+      input#logoutURL(type='hidden' name='signouturl' value='')
+

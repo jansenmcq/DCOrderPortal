@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var MongoClient = require('mongodb').MongoClient;
 var PromisedMongo = require('promised-mongo');
-var mongoURL = 'mongodb://localhost:27017/tickets';
+var mongoURL = 'mongodb://127.0.0.1:27017/tickets';//apparently there's a node bug where you have to specify the home address instead of 'localhost'
 var ObjectID = require('mongodb').ObjectID;
 var passport = require('passport');
 
@@ -22,32 +22,38 @@ router.get('/', function(req, res) {
 router.get('/tickets', function(req, res) {
     //res.send('This site is down as there are no tickets to be sold. Sorry!')
     //res.send('Sorry, we\'re experiencing technical difficulties right now. Please be patient and try again soon!');
+    console.log("Tickets page route, about to get database instance");
     var db = PromisedMongo(mongoURL);
 
+    console.log("Tickets page route, about to get collections instance");
     var shows = db.collection('showInfo');
     var data;
+    console.log("Tickets page route, about to make request");
     shows.findOne({infoType: 'enableShow'})
     .then(function(item) {
         data = item.data;
         data.title = 'Tickets';
         if (data.sellingTickets) {
+            console.log("Tickets page route, block 1");
             return shows.findOne({infoType: 'showTimeText'})
         }
     })
     .then(function(showTime) {
         if (showTime) {
             data.showTime = showTime.data;
+            console.log("Tickets page route, block 2");
             return shows.findOne({infoType: 'showNames'});
         }
     })
     .then(function(showNames) {
         if (showNames) {
+            console.log("Tickets page route, block 3");
             data.showNames = showNames.data;
         }
         res.render('tickets', data);
     })
     .catch(function(err) {
-        console.log('Error with Database:', err);
+        console.log('Error with Database on ticket page request:', err);
         res.status(500).send('Database Error');
     });
 });
@@ -216,8 +222,8 @@ router.post('/checkout/payment_completed', function(req, res) {
             console.log('Error connecting to MongoClient in route \'checkout/payment_completed\' with message:', err);
             res.status(500).send('Database error, please try again.');
         } else {
-            console.log("Payment succeeded. Look for ref1val1:");
-            console.log(req.body);
+            //console.log("Payment succeeded for email:");
+            //console.log(req.body.ref1val1);
             var purchaseRecords = db.collection('purchaseRecords');
             purchaseRecords.find({email: req.body.ref1val1}).toArray(function (err, itemList) {
                 if (err) {

@@ -119,37 +119,37 @@ router.post('/checkout', function(req, res) {
                     var remainingT4 = item.T4 - normalizeTicketNumber(req.body.T4Tickets);
                     var notEnoughTickets = false;
                     var errorMessage = {error: {tickets: {}}};
-                    //console.log(checkoutScope.remainingF7);
-                    if (checkoutScope.remainingF7 < 0) {
+                    //console.log(remainingF7);
+                    if (remainingF7 < 0) {
                         errorMessage.error.tickets.F7 = item.F7;
                         notEnoughTickets = true;
                         //console.log(errorMessage);
                     }
-                    if (checkoutScope.remainingF9 < 0) {
+                    if (remainingF9 < 0) {
                         errorMessage.error.tickets.F9 = item.F9;
                         notEnoughTickets = true;
                     }
-                    if (checkoutScope.remainingS7 < 0) {
+                    if (remainingS7 < 0) {
                         errorMessage.error.tickets.S7 = item.S7;
                         notEnoughTickets = true;
                     }
-                    if (checkoutScope.remainingS9 < 0) {
+                    if (remainingS9 < 0) {
                         errorMessage.error.tickets.S9 = item.S9;
                         notEnoughTickets = true;
                     }
-                    if (checkoutScope.remainingT1 < 0) {
+                    if (remainingT1 < 0) {
                         errorMessage.error.tickets.T1 = item.T1;
                         notEnoughTickets = true;
                     }
-                    if (checkoutScope.remainingT2 < 0) {
+                    if (remainingT2 < 0) {
                         errorMessage.error.tickets.T2 = item.T2;
                         notEnoughTickets = true;
                     }
-                    if (checkoutScope.remainingT3 < 0) {
+                    if (remainingT3 < 0) {
                         errorMessage.error.tickets.T3 = item.T3;
                         notEnoughTickets = true;
                     }
-                    if (checkoutScope.remainingT4 < 0) {
+                    if (remainingT4 < 0) {
                         errorMessage.error.tickets.T4 = item.T4;
                         notEnoughTickets = true;
                     }

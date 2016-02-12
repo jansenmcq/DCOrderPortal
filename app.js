@@ -8,60 +8,66 @@ var lessCompiler = require('less-middleware');
 
 var routes = require('./routes/index');
 
-var app = express();
+module.exports = function(db) {
+  var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+  app.set('views', path.join(__dirname, 'views'));
+  app.set('view engine', 'jade');
+
+  app.use(function (req, res, next) {
+    req.db = db;
+    next();
+  });
 
 // uncomment after placing your favicon in /public
-app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger(':remote-addr [:date] :method :url :status', {
-  skip: function(req, res) {
-    if (req.path.indexOf('checkout') > -1 || (req.path.indexOf('checkout') > -1 && req.path.indexOf('checkout') < 5)) {
-      return false;
+  app.use(favicon(__dirname + '/public/favicon.ico'));
+  app.use(logger(':remote-addr [:date] :method :url :status', {
+    skip: function (req, res) {
+      if (req.path.indexOf('checkout') > -1 || (req.path.indexOf('checkout') > -1 && req.path.indexOf('checkout') < 5)) {
+        return false;
+      }
+      return true;
     }
-    return true;
-  }
-}));
+  }));
 //app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(lessCompiler(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public')));
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({extended: false}));
+  app.use(cookieParser());
+  app.use(lessCompiler(path.join(__dirname, 'public')));
+  app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+  app.use('/', routes);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+  app.use(function (req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+  });
 
 // error handlers
 
 // development error handler
 // will print stacktrace
-console.log(app.get('env'));
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
+  console.log(app.get('env'));
+  if (app.get('env') === 'development') {
+    app.use(function (err, req, res, next) {
+      res.status(err.status || 500);
+      res.render('error', {
+        message: err.message,
+        error: err
+      });
     });
-  });
-}
+  }
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {  
-  console.log(err);
-  res.status(err.status || 500);
-  res.send('error');
-});
+  app.use(function (err, req, res, next) {
+    console.log(err);
+    res.status(err.status || 500);
+    res.send('error');
+  });
 
-
-module.exports = app;
+  return app;
+}

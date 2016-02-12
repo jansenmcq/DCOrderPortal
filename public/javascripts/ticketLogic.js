@@ -1,42 +1,44 @@
 $(function() {
 
-    $.get('/ticketapi/get', function(data) {
-        if (data.F7 <= 0) {
-            $('#F7ticketsAmount').prop('disabled', true);
-            $('#F7ticketsTitle').addClass('disabled');
-        }
-        if (data.F9 <= 0) {
-            $('#F9ticketsAmount').prop('disabled', true);
-            $('#F9ticketsTitle').addClass('disabled');
-        }
-        if (data.S7 <= 0) {
-            $('#S7ticketsAmount').prop('disabled', true);
-            $('#S7ticketsTitle').addClass('disabled');
-        }
-        if (data.S9 <= 0) {
-            $('#S9ticketsAmount').prop('disabled', true);
-            $('#S9ticketsTitle').addClass('disabled');
-        }
-        if (data.T1 <= 0) {
-            $('#T1ticketsAmount').prop('disabled', true);
-            $('#T1ticketsTitle').addClass('disabled');
-        }
-        if (data.T2 <= 0) {
-            $('#T2ticketsAmount').prop('disabled', true);
-            $('#T2ticketsTitle').addClass('disabled');
-        }
-        if (data.T3 <= 0) {
-            $('#T3ticketsAmount').prop('disabled', true);
-            $('#T3ticketsTitle').addClass('disabled');
-        }
-        if (data.T4 <= 0) {
-            $('#T4ticketsAmount').prop('disabled', true);
-            $('#T4ticketsTitle').addClass('disabled');
-        }
-    });
+    var showNames;
 
     var normalizeTicketNumber = function(ticketAmount) {
         return parseInt(ticketAmount) ? parseInt(ticketAmount) : 0;
+    };
+
+    var disableTicketFields = function(data) {
+        if (normalizeTicketNumber(data.F7) <= 0) {
+            $('#F7ticketsAmount').prop('disabled', true);
+            $('#F7ticketsTitle').addClass('disabled');
+        }
+        if (normalizeTicketNumber(data.F9) <= 0) {
+            $('#F9ticketsAmount').prop('disabled', true);
+            $('#F9ticketsTitle').addClass('disabled');
+        }
+        if (normalizeTicketNumber(data.S7) <= 0) {
+            $('#S7ticketsAmount').prop('disabled', true);
+            $('#S7ticketsTitle').addClass('disabled');
+        }
+        if (normalizeTicketNumber(data.S9) <= 0) {
+            $('#S9ticketsAmount').prop('disabled', true);
+            $('#S9ticketsTitle').addClass('disabled');
+        }
+        if (normalizeTicketNumber(data.T1) <= 0) {
+            $('#T1ticketsAmount').prop('disabled', true);
+            $('#T1ticketsTitle').addClass('disabled');
+        }
+        if (normalizeTicketNumber(data.T2) <= 0) {
+            $('#T2ticketsAmount').prop('disabled', true);
+            $('#T2ticketsTitle').addClass('disabled');
+        }
+        if (normalizeTicketNumber(data.T3) <= 0) {
+            $('#T3ticketsAmount').prop('disabled', true);
+            $('#T3ticketsTitle').addClass('disabled');
+        }
+        if (normalizeTicketNumber(data.T4) <= 0) {
+            $('#T4ticketsAmount').prop('disabled', true);
+            $('#T4ticketsTitle').addClass('disabled');
+        }
     };
 
     var calculateTotal = function() {
@@ -98,7 +100,6 @@ $(function() {
         $('#emailRef').val($('#email').val());
         $('#logoutURL').val('http://52.24.221.243/checkout/logout/' + $('#email').val());
         $('#hiddenForm').submit();
-
     };
 
     var validateAndSubmitData = function() {
@@ -108,34 +109,31 @@ $(function() {
         if (!validateData()) {
             return;
         }
-
         $('#submitData').off();
         $('#checkoutText').text('');
         $('#pageLoad').show();
         $.post('/checkout',
-            {
-                name: $('#name').val(),
-                email: $('#email').val(),
-                F7Tickets: normalizeTicketNumber($('#F7ticketsAmount').val()),
-                F9Tickets: normalizeTicketNumber($('#F9ticketsAmount').val()),
-                S7Tickets: normalizeTicketNumber($('#S7ticketsAmount').val()),
-                S9Tickets: normalizeTicketNumber($('#S9ticketsAmount').val()),
-                T1Tickets: normalizeTicketNumber($('#T1ticketsAmount').val()),
-                T2Tickets: normalizeTicketNumber($('#T2ticketsAmount').val()),
-                T3Tickets: normalizeTicketNumber($('#T3ticketsAmount').val()),
-                T4Tickets: normalizeTicketNumber($('#T4ticketsAmount').val())
-            }
+                {
+                    name: $('#name').val(),
+                    email: $('#email').val(),
+                    F7Tickets: normalizeTicketNumber($('#F7ticketsAmount').val()),
+                    F9Tickets: normalizeTicketNumber($('#F9ticketsAmount').val()),
+                    S7Tickets: normalizeTicketNumber($('#S7ticketsAmount').val()),
+                    S9Tickets: normalizeTicketNumber($('#S9ticketsAmount').val()),
+                    T1Tickets: normalizeTicketNumber($('#T1ticketsAmount').val()),
+                    T2Tickets: normalizeTicketNumber($('#T2ticketsAmount').val()),
+                    T3Tickets: normalizeTicketNumber($('#T3ticketsAmount').val()),
+                    T4Tickets: normalizeTicketNumber($('#T4ticketsAmount').val())
+                }
             )
             .done(function(response) {
                 if (response.error) {
                     var error = response.error;
-                    if (error.email) {
-			var errorMessage = 'Sorry, you provided an invalid email address. Please check your email and try again.';
-			$('#errorMessage').text(errorMessage).show();
-		    } else if (error.tickets) {
+                    if (error.tickets) {
+                        console.log(error);
                         var ticketError = error.tickets;
-                        var errorMessage = 'Regrettably, there are not enough tickets to fulfill your request. '
-                        if (ticketError.F7) {
+                        var errorMessage = 'Regrettably, there are not enough tickets to fulfill your request. ';
+                        if ('F7' in ticketError) {
                             errorMessage += 'For the Friday show at 7:00, there are only ' + ticketError.F7 + ' tickets left. ';
                         }
                         if (ticketError.F9) {
@@ -210,27 +208,30 @@ $(function() {
                                     'Otherwise, your order will be deleted.';
                             alert(areYouSureText);
                             window.open("http://www.byudivinecomedy.com","_self");
-                            //$.post('/checkout/record/contested_record', {id: purchaseRecord._id})
-                            //    .done(function(message) {
-                            //        console.log(message);
-                            //        if (message == 'success') {
-                            //            validateAndSubmitData();
-                            //        } else {
-                            //            alert('uh oh, something went wrong. Please reload this page and try again');
-                            //        }
-                            //    });
                         }
+                    } else if (error.malformedEmail) {
+                        $('#errorMessage').text('The email you provided is not valid. Please do not attempt to purchase tickets unless you intend to buy them.').show();
+                        $('#submitData').click(validateAndSubmitData);
+                        $('#checkoutText').text('Checkout');
+                        $('#pageLoad').hide();
                     }
                 } else {
                     formatAndSubmitForm(ticketTotals);
                 }
+            })
+            .fail(function(err) {
+                alert('There seems to have been an error with checkout. Message: ' + JSON.stringify(err) + '\nPlease try again in a few minutes.');
             });
     };
 
-    $('.ticketInput').change(function() {
-        calculateTotal();
-    });
+    $.get('/ticketapi/get', disableTicketFields);
+
+    $('.ticketInput').change(calculateTotal);
 
     $('#submitData').click(validateAndSubmitData);
+
+    $.get('/ticketapi/getShowNames', function(names) {
+       showNames = names;
+    });
 
 });

@@ -188,25 +188,87 @@ $(function() {
                 }
             })
             .fail(function(error) {
-                alert('Sorry, but there\'s been an error:', error, '\nPlease try again or ask Jansen for help');
+                alert('Sorry, but there\'s been an error:' + JSON.stringify(error) + '\nPlease try again or ask Jansen for help');
             });
     });
 
     $('#clearFailedPurchases').click(function(e) {
-        alert('Sorry, this doesn\'t actually do anything yet');
-        /*
         $.post('/admin/recordsapi/presidencyactions/sanitizeDatabase')
             .done(function(message) {
-
+                alert('Success! There have been ' + message.n + ' records deleted.');
+                refreshTicketCounts();
             })
             .fail(function(error) {
                 alert('Sorry, but there\'s been an internal error:', error, '\nPlease try again or ask Jansen for help');
-            });*/
+            });
     });
 
+    $('#saveShowInfoChanges').click(function(e) {
+        var enableShow = {
+            data:{
+                sellingTickets: $('#showEnableInput').prop('checked'),
+                enabledShows: {
+                    F7enabled: $('#F7EnableInput').prop('checked'),
+                    F9enabled: $('#F9EnableInput').prop('checked'),
+                    S7enabled: $('#S7EnableInput').prop('checked'),
+                    S9enabled: $('#S9EnableInput').prop('checked'),
+                    T1enabled: $('#T1EnableInput').prop('checked'),
+                    T2enabled: $('#T2EnableInput').prop('checked'),
+                    T3enabled: $('#T3EnableInput').prop('checked'),
+                    T4enabled: $('#T4EnableInput').prop('checked')
+                }
+            }
+        };
+        var showNames = {
+            data: {
+                F7Name: $('#F7ShowNameInput').val(),
+                F9Name: $('#F9ShowNameInput').val(),
+                S7Name: $('#S7ShowNameInput').val(),
+                S9Name: $('#S9ShowNameInput').val(),
+                T1Name: $('#T1ShowNameInput').val(),
+                T2Name: $('#T2ShowNameInput').val(),
+                T3Name: $('#T3ShowNameInput').val(),
+                T4Name: $('#T4ShowNameInput').val()
+            }
+        };
+        var showTimeText = {
+            data: $('#showTimeTextInput').val()
+        };
+        var bannerText = {
+            data: $('#bannerTextInput').val()
+        };
+        var postObject = {
+            enableShow: enableShow,
+            showNames: showNames,
+            showTimeText: showTimeText,
+            bannerText: bannerText
+        };
+        console.log(postObject);
+        $.post('/admin/infoapi/presidencyactions/saveinfo', postObject)
+            .done(function(updateMessage) {
+                if (updateMessage == 'success') {
+                    alert('Success!');
+                } else {
+                    alert('Something went wrong. Please refresh the page and try again.');
+                }
+            })
+            .fail(function(err) {
+                alert('Something went wrong: ' + JSON.stringify(err) +'.\nPlease refresh the page and try again.');
+            });
 
+    });
 
-
-
+    $('#resetPurchases').click(function() {
+        var reset = confirm('By clicking \'OK\' you will be deleting all previous purchase records. Are you sure you want to do this?');
+        if (reset) {
+            $.post('/admin/recordsapi/presidencyactions/reset')
+                .done(function (message) {
+                    alert('Success!');
+                })
+                .fail(function(error) {
+                    alert('There seems to have been some kind of error:' + JSON.stringify(error) + 'Please try again or ask Jansen for help');
+                });
+        }
+    });
 
 });

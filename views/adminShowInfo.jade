@@ -1,4 +1,31 @@
 extends adminLayout
 
 block adminFill
-    h2 Currently unimplemented. Ask Jansen about what cool new features there will be for the March show!
+    a.adminChange.btn.btn-default#resetPurchases Reset Purchases
+    each name, show in showNames
+        -var showCode = show.substr(0,2)
+        -var radioName = 'enable' + showCode
+        -var enabledIndex = showCode + 'enabled'
+        -var enabled = enabledShows[enabledIndex]
+        -var enableId = showCode + 'EnableInput'
+        -var showNameId = showCode + 'ShowNameInput'
+
+        h4.showInfoHeader=name
+        label.showInfoLabel Enabled:
+            input.showInfoInput(id=enableId type='radio', name=radioName, value=true, checked=enabled)
+        label.showInfoLabel Disabled:
+            input.showInfoInput(type='radio', name=radioName, value=false, checked=!enabled)
+        label.showInfoLabel Name:
+            input.showInfoInput(id=showNameId, value=name, type='text')
+    h4.showInfoHeader Ticket Sales
+    label.showInfoLabel Enabled:
+        input.showInfoInput(id='showEnableInput' type='radio', name='ticketSales', value=true, checked=sellingTickets)
+    label.showInfoLabel Disabled:
+        input.showInfoInput(type='radio', name='ticketSales', value=false, checked=!sellingTickets)
+    h4.showInfoHeader Other Text
+    label.showInfoLabel Ticket Info Text:
+        input.showInfoInput.largeTextInput(id='showTimeTextInput', type='text', value=showTimeText)
+    label.showInfoLabel Banner Text:
+        input.showInfoInput.largeTextInput(id='bannerTextInput', type='text', value=bannerText)
+    a.adminChange.btn.btn-default#saveShowInfoChanges Save Changes
+    //h2 Currently unimplemented. Ask Jansen about what cool new features there will be for the March show!

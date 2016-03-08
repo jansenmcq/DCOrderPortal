@@ -28,6 +28,7 @@ MongoClient.connect(mongoURL, function(err, db) {
                             console.log('delete err: ', err);
                         } else {
                             console.log(result);
+                            testCollection.drop();
                             db.close();
                         }
                     });
